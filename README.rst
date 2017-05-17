@@ -26,7 +26,7 @@ How to use it
 
 .. code-block:: python
 
-  from sanic import Sanic
+  from sanic import Sanic, response
 
 
   app = Sanic(__name__)
