@@ -1,0 +1,10 @@
+include AUTHORS
+include LICENSE
+include Makefile
+include README.rst
+include requirements.txt
+include requirements-dev.txt
+include tox.ini
+recursive-include docs *.py *.rst *.txt Makefile make.bat
+recursive-include examples *.py
+recursive-include tests *.py
