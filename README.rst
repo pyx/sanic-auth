@@ -26,6 +26,7 @@ How to use it
 
 .. code-block:: python
 
+  from sanic_auth import Auth
   from sanic import Sanic, response
 
 
