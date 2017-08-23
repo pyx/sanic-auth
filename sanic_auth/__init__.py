@@ -91,28 +91,26 @@ class Auth:
         @wraps(route)
         async def privileged(request, *args, **kwargs):
             user = self.current_user(request)
+            if isawaitable(user):
+                user = await user
+
             if user is None:
                 if handle_no_auth:
                     resp = handle_no_auth(request)
                 else:
                     resp = self.handle_no_auth(request)
+            else:
+                if user_keyword is not None:
+                    if user_keyword in kwargs:
+                        raise RuntimeError(
+                            'override user keyword %r in route' % user_keyword)
+                    kwargs[user_keyword] = user
+                resp = route(request, *args, **kwargs)
 
-                if isawaitable(resp):
-                    resp = await resp
-                return resp
-
-            if isawaitable(user):
-                user = await user
-
-            if user_keyword is not None:
-                if user_keyword in kwargs:
-                    raise RuntimeError(
-                        'override user keyword %r in route' % user_keyword)
-                kwargs[user_keyword] = user
-            resp = route(request, *args, **kwargs)
             if isawaitable(resp):
                 resp = await resp
             return resp
+
         return privileged
 
     def serialize(self, user):
