@@ -150,3 +150,4 @@ class Auth:
     def no_auth_handler(self, handle_no_auth):
         """Decorator to handle an unauthorized request"""
         self.handle_no_auth = handle_no_auth
+        return handle_no_auth
