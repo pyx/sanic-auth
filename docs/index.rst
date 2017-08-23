@@ -40,6 +40,12 @@ Full Example
 Changelog
 =========
 
+- 0.2.0
+
+  - Handling of unauthorized request can be customized.
+  - Properly handle async user loader.
+
+
 - 0.1.0
 
   First public release.
