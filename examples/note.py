@@ -66,5 +66,15 @@ async def profile(request, user):
     return response.html(content)
 
 
+def handle_no_auth(request):
+    return response.json(dict(message='unauthorized'), status=401)
+
+
+@app.route('/api/user')
+@auth.login_required(user_keyword='user', handle_no_auth=handle_no_auth)
+async def api_profile(request, user):
+    return response.json(dict(id=user.id, name=user.name))
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)

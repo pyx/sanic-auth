@@ -5,7 +5,7 @@ from inspect import isawaitable
 
 from sanic import response
 
-__version__ = '0.2.0.dev0'
+__version__ = '0.2.0.dev1'
 
 __all__ = ['Auth', 'User']
 
@@ -62,7 +62,8 @@ class Auth:
         if token is not None:
             return self.load_user(token)
 
-    def login_required(self, route=None, *, user_keyword=None):
+    def login_required(self, route=None, *, user_keyword=None,
+                       handle_no_auth=None):
         """Decorator to make routes only accessible with authenticated user.
 
         Redirect visitors to login view if no user logged in.
@@ -76,16 +77,30 @@ class Auth:
             handler's arguments.  This is to save from loading the user twice
             if the current user object is going to be used inside the route
             handler.
+        :param handle_no_auth:
+            keyword only arugment, if it is not :code:`None`, and set to a
+            function this will be used to handle a unauthorized request.
         """
         if route is None:
-            return partial(self.login_required, user_keyword=user_keyword)
+            return partial(self.login_required, user_keyword=user_keyword,
+                           handle_no_auth=handle_no_auth)
+
+        if handle_no_auth is not None:
+            assert callable(handle_no_auth), 'handle_no_auth must be a function'
 
         @wraps(route)
         async def privileged(request, *args, **kwargs):
             user = self.current_user(request)
             if user is None:
-                u = self.login_url or request.app.url_for(self.login_endpoint)
-                return response.redirect(u)
+                if handle_no_auth:
+                    resp = handle_no_auth(request)
+                else:
+                    resp = self.handle_no_auth(request)
+
+                if isawaitable(resp):
+                    resp = await resp
+                return resp
+
             if user_keyword is not None:
                 if user_keyword in kwargs:
                     raise RuntimeError(
@@ -125,3 +140,12 @@ class Auth:
     def get_session(self, request):
         """Get the session object associated with current request"""
         return request[self.session_name]
+
+    def handle_no_auth(self, request):
+        """Handle unauthorized user"""
+        u = self.login_url or request.app.url_for(self.login_endpoint)
+        return response.redirect(u)
+
+    def no_auth_handler(self, handle_no_auth):
+        """Decorator to handle an unauthorized request"""
+        self.handle_no_auth = handle_no_auth
