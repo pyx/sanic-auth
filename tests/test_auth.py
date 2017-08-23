@@ -227,6 +227,36 @@ def test_decorators(app):
     assert resp.status == 200 and resp.text == 'demo'
 
 
+def test_async_user_loader(app):
+    auth = Auth(app)
+
+    @auth.user_loader
+    async def load_user(token):
+        if token is 'root':
+            return 'pwned'
+        return None
+
+    @auth.serializer
+    def serialize(user):
+        return 'root'
+
+    @app.post('/login')
+    async def login(request):
+        auth.login_user(request, user)
+        return response.text('All your base are belong to us')
+
+    @app.route('/user')
+    @auth.login_required(user_keyword='user')
+    async def user(request, user):
+        return response.text(user)
+
+    req, resp = app.test_client.post('/login')
+    assert resp.status == 200 and resp.text == 'All your base are belong to us'
+
+    req, resp = app.test_client.get('/user')
+    assert resp.status == 200 and resp.text == 'pwned'
+
+
 def test_setup_once(app):
     auth = Auth(app)
     with pytest.raises(RuntimeError):
