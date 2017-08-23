@@ -79,14 +79,14 @@ class Auth:
             handler.
         :param handle_no_auth:
             keyword only arugment, if it is not :code:`None`, and set to a
-            function this will be used to handle a unauthorized request.
+            function this will be used to handle an unauthorized request.
         """
         if route is None:
             return partial(self.login_required, user_keyword=user_keyword,
                            handle_no_auth=handle_no_auth)
 
         if handle_no_auth is not None:
-            assert callable(handle_no_auth), 'handle_no_auth must be a function'
+            assert callable(handle_no_auth), 'handle_no_auth must be callable'
 
         @wraps(route)
         async def privileged(request, *args, **kwargs):
