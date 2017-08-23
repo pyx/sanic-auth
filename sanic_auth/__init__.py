@@ -101,6 +101,9 @@ class Auth:
                     resp = await resp
                 return resp
 
+            if isawaitable(user):
+                user = await user
+
             if user_keyword is not None:
                 if user_keyword in kwargs:
                     raise RuntimeError(
