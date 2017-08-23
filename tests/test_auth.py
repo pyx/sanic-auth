@@ -183,6 +183,13 @@ def test_decorators(app):
             if user['id'] == token:
                 return user
 
+    @auth.no_auth_handler
+    def handle_unauthorized(request):
+        return response.text('unauthorized', status=401)
+
+    def handle_no_auth(request):
+        return response.text('no_auth', status=403)
+
     @app.post('/login')
     async def login(request):
         name = request.form.get('name')
@@ -197,6 +204,17 @@ def test_decorators(app):
     @auth.login_required(user_keyword='user')
     async def user(request, user):
         return response.text(user['name'])
+
+    @app.route('/user/data')
+    @auth.login_required(handle_no_auth=handle_no_auth)
+    async def user_data(request, user):
+        return response.text(user['name'])
+
+    req, resp = app.test_client.get('/user')
+    assert resp.status == 401 and resp.text == 'unauthorized'
+
+    req, resp = app.test_client.get('/user/data')
+    assert resp.status == 403 and resp.text == 'no_auth'
 
     payload = {'name': 'noone', 'password': '1234'}
     req, resp = app.test_client.post('/login', data=payload)
