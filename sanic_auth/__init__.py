@@ -140,7 +140,7 @@ class Auth:
 
     def get_session(self, request):
         """Get the session object associated with current request"""
-        return request[self.session_name]
+        return request.ctx.session
 
     def handle_no_auth(self, request):
         """Handle unauthorized user"""
