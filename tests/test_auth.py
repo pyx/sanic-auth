@@ -232,7 +232,7 @@ def test_async_user_loader(app):
 
     @auth.user_loader
     async def load_user(token):
-        if token is 'root':
+        if token == 'root':
             return 'pwned'
         return None
 
