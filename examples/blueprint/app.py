@@ -21,7 +21,7 @@ app.blueprint(home)
 session = {}
 @app.middleware('request')
 async def add_session(request):
-    request['session'] = session
+    request.ctx.session = session
 
 
 if __name__ == '__main__':

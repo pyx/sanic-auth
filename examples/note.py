@@ -13,7 +13,7 @@ auth = Auth(app)
 session = {}
 @app.middleware('request')
 async def add_session(request):
-    request['session'] = session
+    request.ctx.session = session
 
 
 
