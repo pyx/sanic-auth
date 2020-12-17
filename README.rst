@@ -85,9 +85,6 @@ Links
 
 - `Source Package @ PyPI <https://pypi.python.org/pypi/sanic-auth/>`_
 
-- `Mercurial Repository @ bitbucket
-  <https://bitbucket.org/pyx/sanic-auth/>`_
-
 - `Git Repository @ Github
   <https://github.com/pyx/sanic-auth/>`_
 

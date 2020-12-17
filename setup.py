@@ -23,20 +23,22 @@ setup(
     author_email='pyx@xrefactor.com',
     license='BSD-New',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
     install_requires=[
-        'sanic',
+        'sanic>=20.3.0',
     ],
     extras_require={
         'dev': [

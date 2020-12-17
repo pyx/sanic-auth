@@ -19,7 +19,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = 'Sanic-Auth'
-copyright = '2017, Philip Xu'
+copyright = '2017-2020, Philip Xu'
 author = 'Philip Xu and contributors'
 
 release = sanic_auth.__version__

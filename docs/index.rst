@@ -40,6 +40,11 @@ Full Example
 Changelog
 =========
 
+- 0.3.0
+
+  - Support Sanic 20.3.0
+  - Drop python 3.5 support.
+
 - 0.2.0
 
   - Handling of unauthorized request can be customized.
