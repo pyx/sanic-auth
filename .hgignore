@@ -1,6 +1,10 @@
 syntax: regexp
 
 syntax: glob
+.*
+
+pdm.lock
+
 .bzr
 .git
 .svn

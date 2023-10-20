@@ -1,0 +1,54 @@
+[project]
+name = "Sanic-Auth"
+description = "Sanic-Auth - Simple Authentication for Sanic"
+authors = [
+    {name = "Philip Xu", email = "pyx@xrefactor.com"},
+    {name = "Philip Xu and contributors", email = "pyx@xrefactor.com"},
+]
+dependencies = [
+    "sanic>=20.3.0",
+]
+dynamic = ["version"]
+requires-python = ">=3.8"
+readme = "README.rst"
+license = {text = "BSD-New"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/pyx/sanic-auth/"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+doc = [
+    "Sphinx>=7.1.2",
+]
+lint = [
+    "flake8>=5.0.4",
+]
+test = [
+    "sanic-testing>=23.6.0",
+    "pytest-cov>=4.1.0",
+]
+
+[tool.pdm.scripts]
+doc_html = {shell = "cd docs; make html; cd .."}
+doc_pdf = {shell = "cd docs; make latexpdf; cd .."}
+docs = {composite = ["doc_html", "doc_pdf"]}
+lint = "flake8 sanic_auth tests"
+test = "pytest"
+
+[tool.pdm.version]
+source = "file"
+path = "sanic_auth/__init__.py"
