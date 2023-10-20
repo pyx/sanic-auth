@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 #
 # Sanic-Auth documentation build configuration file
-import os
 import sys
+import pathlib
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
-sys.path.insert(0, PROJECT_DIR)
-import sanic_auth  # noqa
+sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
+
+import sanic_auth
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -19,13 +19,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = 'Sanic-Auth'
-copyright = '2017-2020, Philip Xu'
+copyright = '2017-2023, Philip Xu'
 author = 'Philip Xu and contributors'
 
 release = sanic_auth.__version__
-version = release.rsplit('.', 1)[0]
-
-language = None
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
